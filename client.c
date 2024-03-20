@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+#include "src/packet.h"
+
 int main (int argc, char *argv[])
 {
 
@@ -43,12 +45,29 @@ int main (int argc, char *argv[])
 		perror("fatal: SOCKET CONNECTION FAILED");
 		return 1;
 	}
+	/*else
+	{
+		printf("Connection established. Pinging server...");
 
+		
+		 * Create ping packet
+		 * create timer
+		 * send ping packet
+		 * recieve returning ping packet
+		 * print out the time taken
+		
+
+		Packet init_pkt = pkt_create(PING);	
+
+		printf("[PING][CLIENT_ID] time_taken_in_ms");
+	}*/
+
+	
 	int n;
 	while(n = read(sockfd, recv_stream, sizeof(recv_stream)) > 0)
 	{
 		printf("%s", recv_stream);
-	}
+	} 
 
 
 }

@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
+
+#include "src/packet.h"
+#include "src/connection_list.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +21,9 @@ int main(int argc, char *argv[])
 	int listenfd, connfd;
 	struct sockaddr_in servaddr;
 	char send_stream[40960];
+	ConnectionList connection_list;
+	connection_list.count = 0;
+
 
 	//create socket
 	listenfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -53,6 +60,15 @@ int main(int argc, char *argv[])
 		{
 			perror("fatal: FAILED TO ACCEPT CONNECTION");
 			return 1;
+		}
+		else
+		{
+			printf("CONNECTION ACCEPTED\n\r\0");
+			//fflush(stdout);
+			connlist_add(&connection_list, connfd);
+			int id = connlist_find_id(&connection_list, connfd);
+			printf("CLIENT ID: %d\n\r\0", id);
+			//fflush(stdout);
 		}
 
 		bzero(send_stream, 40960);
